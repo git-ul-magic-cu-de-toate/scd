@@ -1,0 +1,14 @@
+1. a) dependenta cauzala
+   b) dependenta cauzala vs secventiala vs stricta
+2. Diffie Hellman pentru group exchange n
+3. a) Chord
+   b) tabele rutare Chord
+   c) mod dezvlotare cheie Chord
+   d) modificari Chord cand intra / iese un nod din retea
+4. a) descriere model logare mesaje
+   b) procese orfane
+   c) scheme de logare
+   d) protocoale de logare
+5. a) microservicii vs docker
+   b) persistenta datelor docker
+6. Biba

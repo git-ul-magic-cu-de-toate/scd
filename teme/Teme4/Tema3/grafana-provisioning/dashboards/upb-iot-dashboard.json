@@ -1,0 +1,274 @@
+{
+	"annotations": {
+	  "list": [
+		{
+		  "builtIn": 1,
+		  "datasource": "-- Grafana --",
+		  "enable": true,
+		  "hide": true,
+		  "iconColor": "rgba(0, 211, 255, 1)",
+		  "name": "Annotations & Alerts",
+		  "type": "dashboard"
+		}
+	  ]
+	},
+	"editable": true,
+	"gnetId": null,
+	"graphTooltip": 0,
+	"id": 2,
+	"links": [],
+	"panels": [
+	  {
+		"datasource": "InfluxDB",
+		"fieldConfig": {
+		  "defaults": {
+			"custom": {
+			  "align": "left",
+			  "displayMode": "auto",
+			  "filterable": false
+			},
+			"decimals": 2,
+			"mappings": [],
+			"noValue": "-",
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "green",
+				  "value": null
+				},
+				{
+				  "color": "red",
+				  "value": 80
+				}
+			  ]
+			}
+		  },
+		  "overrides": [
+			{
+			  "matcher": {
+				"id": "byName",
+				"options": "Time"
+			  },
+			  "properties": [
+				{
+				  "id": "custom.width",
+				  "value": 174
+				}
+			  ]
+			}
+		  ]
+		},
+		"gridPos": {
+		  "h": 8,
+		  "w": 12,
+		  "x": 0,
+		  "y": 0
+		},
+		"id": 4,
+		"options": {
+		  "frameIndex": 5,
+		  "showHeader": true,
+		  "sortBy": [
+			{
+			  "desc": true,
+			  "displayName": "Time"
+			}
+		  ]
+		},
+		"pluginVersion": "7.3.6",
+		"targets": [
+		  {
+			"alias": "$0.$1",
+			"groupBy": [],
+			"measurement": "/.*/",
+			"orderByTime": "ASC",
+			"policy": "autogen",
+			"query": "SELECT \"value\" FROM \"autogen\"./.*/ WHERE (\"location\" = 'UPB') AND $timeFilter",
+			"rawQuery": false,
+			"refId": "A",
+			"resultFormat": "time_series",
+			"select": [
+			  [
+				{
+				  "params": [
+					"value"
+				  ],
+				  "type": "field"
+				}
+			  ]
+			],
+			"tags": [
+			  {
+				"key": "location",
+				"operator": "=",
+				"value": "UPB"
+			  }
+			]
+		  }
+		],
+		"timeFrom": null,
+		"timeShift": null,
+		"title": "Panel Title",
+		"transformations": [
+		  {
+			"id": "seriesToColumns",
+			"options": {}
+		  }
+		],
+		"type": "table"
+	  },
+	  {
+		"aliasColors": {},
+		"bars": false,
+		"dashLength": 10,
+		"dashes": false,
+		"datasource": "InfluxDB",
+		"description": "",
+		"fieldConfig": {
+		  "defaults": {
+			"custom": {}
+		  },
+		  "overrides": []
+		},
+		"fill": 1,
+		"fillGradient": 0,
+		"gridPos": {
+		  "h": 9,
+		  "w": 12,
+		  "x": 0,
+		  "y": 8
+		},
+		"hiddenSeries": false,
+		"id": 2,
+		"legend": {
+		  "avg": false,
+		  "current": false,
+		  "max": false,
+		  "min": false,
+		  "show": true,
+		  "total": false,
+		  "values": false
+		},
+		"lines": true,
+		"linewidth": 1,
+		"nullPointMode": "null",
+		"options": {
+		  "alertThreshold": true
+		},
+		"percentage": false,
+		"pluginVersion": "7.3.6",
+		"pointradius": 2,
+		"points": false,
+		"renderer": "flot",
+		"seriesOverrides": [],
+		"spaceLength": 10,
+		"stack": false,
+		"steppedLine": false,
+		"targets": [
+		  {
+			"alias": "$0.$1",
+			"groupBy": [
+			  {
+				"params": [
+				  "1s"
+				],
+				"type": "time"
+			  },
+			  {
+				"params": [
+				  "previous"
+				],
+				"type": "fill"
+			  }
+			],
+			"measurement": "/.*/",
+			"orderByTime": "ASC",
+			"policy": "autogen",
+			"query": "SELECT mean(*) AS \".\" FROM \"autogen\".\"iot_measurements\" WHERE (\"location\" = 'UPB') AND $timeFilter GROUP BY time(1s), \"station\" fill(null)",
+			"rawQuery": false,
+			"refId": "A",
+			"resultFormat": "time_series",
+			"select": [
+			  [
+				{
+				  "params": [
+					"*"
+				  ],
+				  "type": "field"
+				},
+				{
+				  "params": [],
+				  "type": "mean"
+				}
+			  ]
+			],
+			"tags": [
+			  {
+				"key": "location",
+				"operator": "=",
+				"value": "UPB"
+			  }
+			]
+		  }
+		],
+		"thresholds": [],
+		"timeFrom": null,
+		"timeRegions": [],
+		"timeShift": null,
+		"title": "Grafic Date",
+		"tooltip": {
+		  "shared": true,
+		  "sort": 0,
+		  "value_type": "individual"
+		},
+		"transformations": [],
+		"type": "graph",
+		"xaxis": {
+		  "buckets": null,
+		  "mode": "time",
+		  "name": null,
+		  "show": true,
+		  "values": []
+		},
+		"yaxes": [
+		  {
+			"format": "short",
+			"label": null,
+			"logBase": 1,
+			"max": null,
+			"min": null,
+			"show": true
+		  },
+		  {
+			"format": "short",
+			"label": null,
+			"logBase": 1,
+			"max": null,
+			"min": null,
+			"show": true
+		  }
+		],
+		"yaxis": {
+		  "align": false,
+		  "alignLevel": null
+		}
+	  }
+	],
+	"refresh": "30s",
+	"schemaVersion": 26,
+	"style": "dark",
+	"tags": [],
+	"templating": {
+	  "list": []
+	},
+	"time": {
+	  "from": "now-6h",
+	  "to": "now"
+	},
+	"timepicker": {},
+	"timezone": "",
+	"title": "UPB IoT Data",
+	"uid": "4oebDFxMk",
+	"version": 2
+  }

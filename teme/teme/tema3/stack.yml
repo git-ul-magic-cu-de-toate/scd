@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto:latest
+    ports:
+      - '1883:1883'
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      - mqtt-network
+
+  mqtt-app:
+    image: mqtt-app
+    build:
+      context: ./mqtt-app
+    depends_on:
+      - mqtt-broker
+      - influxdb
+    env_file: 
+      - mqtt-app/app.env
+      - db/db.env
+    networks:
+      - mqtt-network
+      - db-network
+
+  mqtt-test:
+    image: mqtt-test
+    build:
+      context: ./mqtt-test
+    depends_on:
+      - mqtt-app
+    networks:
+      - mqtt-network
+
+  influxdb:
+    image: influxdb:latest
+    env_file: db/db.env
+    volumes:
+      - ./volumes/influxdb-data:/var/lib/influxdb2:rw
+    networks:
+      - db-network
+      - grafana-db
+    restart: always
+  
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+    - '80:3000'
+    depends_on:
+      - influxdb
+    volumes:
+      - ./volumes/grafana-data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards/
+      - ./grafana:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=asistent
+      - GF_SECURITY_ADMIN_PASSWORD=grafanaSPRC2023
+    networks:
+      - grafana-db
+
+networks:
+  mqtt-network: {}
+
+  db-network: {}
+
+  grafana-db: {}

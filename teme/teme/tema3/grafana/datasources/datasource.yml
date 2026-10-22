@@ -1,0 +1,16 @@
+apiVersion: 1
+
+datasources:
+  - name: influxdb
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    jsonData:
+      version: Flux
+      organization: upb
+      defaultBucket: iot_database
+      tlsSkipVerify: true
+      user: student
+      password: student123
+    secureJsonData:
+      token: mytoken

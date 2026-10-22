@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql-container
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: countries_db
+      MYSQL_USER: countries_user
+      MYSQL_PASSWORD: countries_pass
+    ports:
+      - "3306:3306"
+    networks:
+      - flask-network
+      - mysql-adminer-network
+
+  flask-app:
+    build:
+      context: ./flask-app
+    container_name: flask-app-container
+    volumes:
+      - ./flask-app:/app
+    ports:
+      - "5000:5000"
+    networks:
+      - flask-network
+    depends_on:
+      - mysql-db
+    environment:
+      MYSQL_HOST: mysql-db
+      MYSQL_DATABASE: countries_db
+      MYSQL_USER: countries_user
+      MYSQL_PASSWORD: countries_pass
+
+  adminer:
+    image: adminer
+    container_name: adminer-container
+    ports:
+      - "8080:8080"
+    networks:
+      - mysql-adminer-network
+    depends_on:
+      - mysql-db
+
+networks:
+  flask-network:
+    driver: bridge
+  mysql-adminer-network:
+    driver: bridge
+
+volumes:
+  mysql_data: {}

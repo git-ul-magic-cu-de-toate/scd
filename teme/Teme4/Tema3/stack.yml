@@ -1,0 +1,56 @@
+version: '3.7'
+
+
+services:
+  broker:
+    image: eclipse-mosquitto:latest
+    ports:
+      - '1883:1883'
+    networks:
+      - network-broker
+
+  server:
+    depends_on:
+      - broker
+      - influxdb
+    build: ./src
+    image: server
+    env_file: envs/server.env
+    networks:
+      - network-broker
+      - network-db
+
+  influxdb:
+    image: influxdb:latest
+    volumes:
+      - ./db/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+      - type: bind
+        source: db/influxdb-storage
+        target: /var/lib/influxdb
+    networks:
+      - network-db
+      - network-gui
+
+  grafana:
+    image: grafana/grafana:latest
+    depends_on:
+      - influxdb
+    ports:
+      - '80:3000'
+    volumes:
+      - type: bind
+        source: db/grafana-storage
+        target: /var/lib/grafana
+      - ./grafana-provisioning/:/etc/grafana/provisioning
+    env_file: envs/grafana.env
+    networks:
+      - network-gui
+
+
+networks:
+  network-broker:
+    name: network-broker
+  network-db:
+    name: network-db
+  network-gui:
+    name: network-gui

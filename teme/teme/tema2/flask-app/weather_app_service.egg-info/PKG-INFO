@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: weather-app-service
+Version: 0.1
+Summary: weather app service that works as a web application
+Home-page: UNKNOWN
+Author: Mihai Ramsi Soare
+License: UNKNOWN
+Platform: UNKNOWN
+Requires-Python: >=3.7
+
+weather app service that works as a web application using Flask
+

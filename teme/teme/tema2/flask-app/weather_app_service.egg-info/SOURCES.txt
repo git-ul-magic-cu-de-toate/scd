@@ -1,0 +1,10 @@
+setup.cfg
+setup.py
+src/__init__.py
+src/main.py
+src/server.py
+src/utils.py
+weather_app_service.egg-info/PKG-INFO
+weather_app_service.egg-info/SOURCES.txt
+weather_app_service.egg-info/dependency_links.txt
+weather_app_service.egg-info/top_level.txt
